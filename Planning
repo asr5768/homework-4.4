@@ -1,0 +1,22 @@
+Homework 4.3 Plan:
+1. Load the datasets and packages. 
+2. Clean the table for busiest airports and create a new table for the 6 selected airports from 2020 to 2025. 
+3. Display the table and the graphical representation of the data in the table focusing on two variables/categories in the graph. 
+4. For Monte Carlo sim, write the code for the simulation and include specific commands like runif. 
+5. All the code above should be displayed in the code appendix at the end of the document and not in the main part. 
+6. Have an appropriate title, date, and author for the document. 
+7. Have four main sections of the document which are Busiest Airports Analysis, Monte Carlo Numerical Integration, Planning and Prompting 
+   Generative AI tools, and Reflection. 
+8. Have two appendices at the end of the document. One should be for the Gen AI Useage and the other should be the Code Appendix. 
+9. Submit only the rendered pdf. 
+
+Creating/Maintaining the repository:
+1. Open Github and go to Stat184 organization. 
+2. Click on 'browse organization's repositories' on the left side of the screen. 
+3. Click on 'templates' on the left side in the menu option. It should be the last option. 
+4. Click on 'Homework4.4_Template' and choose 'use this template' on the right side to create the repository for homework4.4
+5. Upload my homework 4.3 files -- both the pdf and the qmd. 
+6. Create a new file for the plan which has info on the homework 4.3 plan and creating/maintaining repo. 
+7. To maintain this repository I will make sure to commit all my changes to that there is a history of every upload and changes I made. 
+8. Make sure to use Issues feature. 
+9. Use branches so as my main branch has the files which have no issues. 
