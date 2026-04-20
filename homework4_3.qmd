@@ -1,0 +1,399 @@
+---
+title: "homework_4_#_3"
+format: pdf
+editor: visual
+date: "April 8, 2026"
+author: "Anshruta Rahar"
+---
+
+## Busiest Airports Analysis
+
+In this section I will be working with the busiest airports data set and presenting my analysis on the 6 busiest airports of my choosing across a set of years.
+
+The 6 busiest airports that I chose for my analysis are:
+
+-   Hartsfield-Jackson Atlanta International Airport (ATL)
+-   Frankfurt Airport (FRA)
+-   Beijing Daxing International Airport (PKX)
+-   Indira Gandhi International Airport (DEL)
+-   Singapore Changi Airport (SIN)
+-   O'hare International Airport (ORD)
+
+For my analysis I chose to work in Rstudio as I was working with a data set from Wikipedia and found RStudio to be much more useful in terms of wrangling that data and analyzing it in comparison to other languages.
+
+In Rstudio, I primarily worked with three major packages: tidyverse, knitr, and rvest.
+
+To start my analysis I first loaded the packages and the respective data set on the busiest airports from Wikipedia. Once I had loaded all the tables on the Wikipedia webpage, I then created 6 different data sets for each individual year ranging from 2020 to 2025 which only had data of the 6 airports i chose. After getting the 6 airport specific data sets for the 6 years I made a table adding all those separate data sets into one table which was then used for graphing the % change in the airports over the years of 2020-2025.
+
+```{r}
+#| label: The code for wrangling the dataset
+#| include: false
+
+#Step1:loading packages
+library(tidyverse)
+library(rvest)
+library(knitr)
+library(ggplot2)
+
+#Step2:load data from wikipedia
+BusiestAirportRawData <- read_html(
+  x = "https://en.wikipedia.org/wiki/List_of_busiest_airports_by_passenger_traffic"
+) |>
+
+  html_elements(css="table") |>
+  html_table()
+
+#Step3: creating a vector for the airports i want 
+airport_code <- c("ATL/KATL", "FRA/EDDF", "PKX/ZBAD", "DEL/VIDP", "SIN/WSSS", "ORD/KORD")
+
+#Step4: loading the specific datasets of the specific years
+busyAiportData2025 <- BusiestAirportRawData[[1]]
+busyAiportData2024 <- BusiestAirportRawData[[2]]
+busyAiportData2023 <- BusiestAirportRawData[[3]]
+busyAiportData2022 <- BusiestAirportRawData[[4]]
+busyAiportData2021 <- BusiestAirportRawData[[5]]
+busyAiportData2020 <- BusiestAirportRawData[[6]]
+
+#Step5: wrangling each dataset of each specific year
+busyAiportData2025New <- busyAiportData2025 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2025, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2024New <- busyAiportData2024 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2024, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2023New <- busyAiportData2023 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2023, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2022New <- busyAiportData2022 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2022, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2021New <- busyAiportData2021 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2021, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2020New <- busyAiportData2020 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2020, Totalpassengers = parse_number(Totalpassengers))
+
+```
+
+**The Airport Data Table:**
+
+```{r}
+#| label: Creating one big airport data table using all the datasets of each year
+#| echo: false
+
+busyAiportDataTable <- bind_rows(
+  busyAiportData2025New,
+  busyAiportData2024New,
+  busyAiportData2023New,
+  busyAiportData2022New,
+  busyAiportData2021New,
+  busyAiportData2020New
+)
+
+kable(
+  busyAiportDataTable,
+  caption = "Airport Data of the 6 selected airports from the year 2025 to 2020"
+)
+```
+
+**The Airport Data Plot:**
+
+```{r}
+#| echo: false
+busyAiportDataTable|>
+  ggplot(
+    mapping = aes(
+      x = Year,
+      y = `Rank`,
+      color = Airport,
+      group = Airport
+    )
+  ) +
+  geom_line() +
+  geom_point(size = 2)+
+  labs(
+    title = "%Change in the airports over the years of 2020-2025",
+    x = "Year",
+    y = "Rank"
+  )
+```
+
+From the graph and table, I was able to form my analysis that Hartsfield-Jackson International Airport maintained its rank of being number 1 in comparison to the rest of the airports in the data sets and was consistent with its ranking of being number 1 after 2020 where its ranking was number 2 overall. O'hare then followed being the second highest ranked airport in 2020 and maintained its position of being second highest ranked airport in my choosing of the 6 respective airports even though its rankings were not as uniform yearly as they were for Hartsfield-Jackson and the other airports. Indira Gandhi then followed being the third highest ranked airport among the data set of the 6 chosen airports and maintained its position till 2025. Indira Gandhi's rank changes were also a little more uniform in comparison to O'hare and is the third airport which has uniform changes in rankings in comparison to the other airports with Jackson being the first and Beijing Daxing being the second airport with uniform ranking change throughout the years even though it's the lowest ranked airport overall. Frankfurt and Beijing had the same ranking at their starting years but Frankfurt seems to be the only one of the two which significantly improved its ranking and made itself the fifth highest ranked airport in my chosen list of the 6 airports. Singapore's Changi airport is the only airport which has improved its ranking the most among the 6 airports which is shown by the steepest decline in ranking from 2021 to 2022 and made itself the forth highest ranked airport among the 6 total airports.
+
+## Monte Carlo Numerical Integration
+
+Initially I hadn't submitted any code for it in our previous homework as I couldn't choose a function so to keep things super simple I am choosing the function f(x) = - (x-4)\^2 + 4 where 2\<=x\<=6 and output y in 0\<=y\<=4.
+
+```{r}
+#| label: The code for monte carlo numerical integration
+#| echo: false
+
+#loading packages
+library(tidyverse)
+
+#defining the function
+monte_function <- function(x) {
+  -(x-4)^2 + 4
+}
+
+#calculating the area of rectangle
+x_l <- 2
+x_h <- 6
+y_l <- 0
+y_h <- 4
+
+area_rect <- (x_h - x_l)*(y_h - y_l)
+
+#monte carlo simulation
+##randomly sampling n x and y-coordinates using uniform distribution
+##calculating f(x)
+##identifying whether each ordered pair (x,y) is above or below the func
+monte_sim <- function(n, x_l, x_h, y_l, y_h){
+  
+  r_sam <- data.frame(
+    x = runif(n, x_l, x_h),
+    y = runif(n, y_l, y_h)
+  )
+  
+  r_sam$monte_function_x <- monte_function(r_sam$x)
+  r_sam$check <- ifelse(r_sam$y<=r_sam$monte_function_x, "on/below", "above")
+  
+}
+
+
+```
+
+I am having a difficult time writing this simulation further but so far I started with loading my tidyverse package as I need to use if/else statement. Then I defined my function along with defining the bounds of both y and x. Once this was done I calculated the area of the rectangle as defined in the Question 21 of homework #3.4 and then moved on to creating/writing out the code for my Monte Carlo simulation where I randomly sampled n x and y coordinates using uniform distribution while following the instructions and steps laid out in question 21. Once they were joined together in a data frame I moved on to finding whether the ordered pair (x,y) were above or on/below the function.
+
+## Planning and Prompting Gen AI Tools 
+
+My Plan for the calcium data set:
+
+1.  The heading needs to be changed to something more descriptive so that the reader or first time viewer can know exactly or at least get a good idea of what the data set is trying to convey.
+
+2.  The first four columns are the data on the 15 women who were in the null group and the rest of the other four column are on the 16 women who were in the exercise/diet group. So I think to make it easier the data set should have two main columns where one is for null group and the second column is for the diet/exercise. The two columns then go into four other columns each for year0, year1, year2, year3 for both the two groups.
+
+3.  I now want to create a plot that shows the difference in the two groups of women in their ulnar calcium level throughout the four years.
+
+The result I got from my prompt above:
+
+![](images/mypic.png)
+
+![](images/first_pic.png)
+
+![](images/sec_pic.png)
+
+![](images/lst_pic.png)
+
+The generic result given to me in openMath:
+
+![](images/gen_pic.png)
+
+Looking at the two results, I believe my prompt seemed to have produced a better result as you can actually see the difference between the two groups instead of how the data is being visualized in the graph provided to me in open math as the prompt doesn't ask for the data to be tidied. I can also see that my prompt resulted in a lot more information as takeaway from the data set in comparison to the one generated by the generic prompt. Another thing I noticed is that my prompt resulted in more informative answers in comparison to the generic prompt as the Gen AI tool seems to not have the whole idea of what the data set contains as the original data set is not wrangled.
+
+## Reflection 
+
+When I think back to the person I was before I took this course and the one I am now, I feel nothing but appreciation because though at times the course seemed a little difficult and time consuming I feel like it made me more responsible, informative, and most importantly communicative as there were numerous times in class or my homework where I had to share my ideas and findings to my classmates and my professor which made me become more observant of what I was trying to present and how I was trying to put my idea and perspective across in the best possible way that could be easily understood. Another thing this course taught me was how when all my classmates and I participate in class discussions we all tend to learn a lot more than when we don't as during class discussions we tend to bounce ideas off of each other which has helped me in building my understanding of what we are learning about along with learning how to look at the same question with perspectives other than myself as during the time when we collaborate with our table mates we tend to discuss and understand each others' answers and use all those together to come to a singular answer that we can answer as a group along with answering some questions individually.
+
+### Gen AI Usage Appendix
+
+I used ChatGPT model **GPT-5.3** and used it for part c of the assignment for the calcium prompt and planning. I used it on Wednesday April 15th and the prompts I used were:
+
+1.  My Plan for the calcium data set: The heading needs to be changed to something more descriptive so that the reader or first time viewer can know exactly or at least get a good idea of what the data set is trying to convey. The first four columns are the data on the 15 women who were in the null group and the rest of the other four column are on the 16 women who were in the exercise/diet group. So I think to make it easier the data set should have two main columns where one is for null group and the second column is for the diet/exercise. The two columns then go into four other columns each for year0, year1, year2, year3 for both the two groups. I now want to create a plot that shows the difference in the two groups of women in their ulnar calcium level throughout the four years. 
+
+2.  Which version of chatpgt are you?
+
+The response I got were:
+
+1.  You’re thinking about this exactly the right way—your restructuring idea will make the dataset much clearer and easier to analyze.
+
+    ### 1. Improving the structure (your plan refined)
+
+    Right now your dataset is “wide” and a bit hard to interpret. A cleaner structure would look like this conceptually:
+
+    | Group         | Year | Calcium |
+    |---------------|------|---------|
+    | Null          | 0    | ...     |
+    | Null          | 1    | ...     |
+    | ...           | ...  | ...     |
+    | Diet/Exercise | 0    | ...     |
+    | ...           | ...  | ...     |
+
+    This is called a *long format*, and it’s ideal for plotting and statistical analysis. Your idea of grouping by **Null vs Diet/Exercise** and then tracking across **Year 0–3** is exactly right.
+
+    ### 2. What your plot is showing
+
+    I created a plot of the **average ulnar calcium levels** for both groups across the four years (shown above). Here’s how to interpret it:
+
+    -   Both groups **increase slightly from Year 0 → Year 2**
+
+    -   The **diet/exercise group starts lower**, but narrows the gap over time
+
+    -   At **Year 3**, both groups show a **sharp drop**
+
+    -   The two groups are actually **very close by Year 3**
+
+    ### 3. Key takeaway
+
+    Your visualization successfully highlights the **trend over time**, not just raw values:
+
+    -   The intervention (diet/exercise) doesn’t dramatically outperform the null group
+
+    -   But it shows a **more stable trajectory through Years 1–2**
+
+    -   The sharp drop in Year 3 for both groups is something worth questioning (measurement issue? biological effect?)
+
+    ### 4. If you want to improve the plot further
+
+    A few ideas to make it stronger:
+
+    -   Add **error bars** (to show variability)
+
+    -   Plot **individual trajectories** (not just averages)
+
+    -   Use a clearer title, for example:\
+        *“Average Ulnar Calcium Levels Over 4 Years: Null vs Diet/Exercise Groups”*
+
+    ------------------------------------------------------------------------
+
+    If you want, I can also help you:
+
+    -   [Reshape your dataset into the clean “long format”]{.underline}
+
+    -   [Run a statistical test (like repeated measures or t-tests)]{.underline}
+
+    -   Or [make a more polished, publication-quality graph]{.underline}
+
+2.  I’m based on **GPT-5.3**, one of OpenAI’s newer large language models.
+
+    If you’re comparing versions (like GPT-4, GPT-4o, etc.), I can also break down the differences depending on what you’re curious about.
+
+### Code Appendix
+
+```{r}
+###Busiest Airport Code:
+
+#Step1:loading packages
+library(tidyverse)
+library(rvest)
+library(knitr)
+library(ggplot2)
+
+#Step2:load data from wikipedia
+BusiestAirportRawData <- read_html(
+  x = "https://en.wikipedia.org/wiki/List_of_busiest_airports_by_passenger_traffic"
+) |>
+
+  html_elements(css="table") |>
+  html_table()
+
+#Step3: creating a vector for the airports i want 
+airport_code <- c("ATL/KATL", "FRA/EDDF", "PKX/ZBAD", "DEL/VIDP", "SIN/WSSS", "ORD/KORD")
+
+#Step4: loading the specific datasets of the specific years
+busyAiportData2025 <- BusiestAirportRawData[[1]]
+busyAiportData2024 <- BusiestAirportRawData[[2]]
+busyAiportData2023 <- BusiestAirportRawData[[3]]
+busyAiportData2022 <- BusiestAirportRawData[[4]]
+busyAiportData2021 <- BusiestAirportRawData[[5]]
+busyAiportData2020 <- BusiestAirportRawData[[6]]
+
+#Step5: wrangling each dataset of each specific year
+busyAiportData2025New <- busyAiportData2025 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2025, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2024New <- busyAiportData2024 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2024, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2023New <- busyAiportData2023 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2023, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2022New <- busyAiportData2022 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2022, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2021New <- busyAiportData2021 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2021, Totalpassengers = parse_number(Totalpassengers))
+
+busyAiportData2020New <- busyAiportData2020 |>
+  filter(`Code(IATA/ICAO)` %in% airport_code) |>
+  mutate(Year = 2020, Totalpassengers = parse_number(Totalpassengers))
+
+#generating the table for airport data of the 6 airports 
+busyAiportDataTable <- bind_rows(
+  busyAiportData2025New,
+  busyAiportData2024New,
+  busyAiportData2023New,
+  busyAiportData2022New,
+  busyAiportData2021New,
+  busyAiportData2020New
+)
+
+kable(
+  busyAiportDataTable,
+  caption = "Airport Data of the 6 selected airports from the year 2025 to 2020"
+)
+
+#visualizing the airport data
+busyAiportDataTable|>
+  ggplot(
+    mapping = aes(
+      x = Year,
+      y = `Rank`,
+      color = Airport,
+      group = Airport
+    )
+  ) +
+  geom_line() +
+  geom_point(size = 2)+
+  labs(
+    title = "%Change in the airports over the years of 2020-2025",
+    x = "Year",
+    y = "Rank"
+  )
+
+####Monte Carlo Code 
+#loading packages
+library(tidyverse)
+
+#defining the function
+monte_function <- function(x) {
+  -(x-4)^2 + 4
+}
+
+#calculating the area of rectangle
+x_l <- 2
+x_h <- 6
+y_l <- 0
+y_h <- 4
+
+area_rect <- (x_h - x_l)*(y_h - y_l)
+
+#monte carlo simulation
+##randomly sampling n x and y-coordinates using uniform distribution
+##calculating f(x)
+##identifying whether each ordered pair (x,y) is above or below the func
+monte_sim <- function(n, x_l, x_h, y_l, y_h){
+  
+  r_sam <- data.frame(
+    x = runif(n, x_l, x_h),
+    y = runif(n, y_l, y_h)
+  )
+  
+  r_sam$monte_function_x <- monte_function(r_sam$x)
+  r_sam$check <- ifelse(r_sam$y<=r_sam$monte_function_x, "on/below", "above")
+  
+}
+
+
+```
