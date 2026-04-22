@@ -1,6 +1,6 @@
 # Project Title
 
-Write a 1-2 sentences that quickly and clearly convey what your repo is for.
+Busiest Airports Analysis and Monte Carlo Numerical Integration
 
 ## Overview
 
@@ -16,7 +16,7 @@ Be sure to list where you got any data used within the project. Be sure to ackno
 
 ## Current Plan
 
-Provide some information about what you intend to doe with the project. You can additionally refer the visitor to your detailed plan document.
+I aimed to analyze the busiest airports dataset and create a monte carlo numerical integration simulator. Through this assignment particularly I am learning how to navigate github and uploading my homework 4.3 as practice. I am also learning different features of github and how it can be of help when working with a team or in an environment where I would want documentation of my thought process and work. 
 
 ## Repo Structure
 
