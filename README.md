@@ -8,8 +8,8 @@ In my homework 4.3, I tried to create a reproducible data analysis on the busies
 
 
 ## Data Sources and Acknowledgements
-
-
+Busiest Airport Analysis: https://en.wikipedia.org/wiki/List_of_busiest_airports_by_passenger_traffic
+Calcium Dataset: https://www.dropbox.com/scl/fi/8t7an5pjbjaxzpxzydshh/calcium.csv?rlkey=7u7a2z2xriqfqqzyyylpadjfu&dl=1
 
 ## Current Plan
 
@@ -17,7 +17,7 @@ I aimed to analyze the busiest airports dataset and create a monte carlo numeric
 
 ## Repo Structure
 
-Use this section to explain the structure of your repo. This should help visitors quickly figure out where they should look to find certain elements. Further, you can use this space to highlight and briefly explain important/key files in the repo.
+The Repo is organized such that there is a ReadMe file that serves like a navigational file, a qmd file of Homework 4.3 which contains all the code from it, and a pdf of the rendered quarto document. The repo also contains a planning file that talks about the plan related to creating/maintaining the repository and the plan related to homework 4.3. The above mentioned files are the only ones that were worked on by me as the rest came with the template provided to us by our professor and aren't used to for my reproducible data analysis. 
 
 
 ## Authors
