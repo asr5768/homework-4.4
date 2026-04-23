@@ -4,12 +4,12 @@ Busiest Airports Analysis and Monte Carlo Numerical Integration
 
 ## Overview
 
-Expand on those introductory sentences with a brief but informative description of your project's purpose and goals. This section should help visitors decide whether they should dig deeper into your repo/project.
+In my homework 4.3, I tried to create a reproducible data analysis on the busiest airports dataset and the monte carlo numerical integration. The analysis was done in a quarto document and my main goal throughout the homework was to produce a document that could be helpful to other people when working with the same data as me and along with that also keep it as concise and professional looking as I could. To achieve both of those goals, I made the use of visual sources to back my analysis along with using Gen AI to show how thorough and insightful the data could be if the right parameters were analyzed. 
 
 
 ## Data Sources and Acknowledgements
 
-Be sure to list where you got any data used within the project. Be sure to acknowledge any one whose work or elements you're drawing upon.
+
 
 ## Current Plan
 
@@ -22,4 +22,4 @@ Use this section to explain the structure of your repo. This should help visitor
 
 ## Authors
 
-Give information about who are the authors of the project and how people can get in touch if they have questions.
+Anshruta Rahar - asr5768@psu.edu
